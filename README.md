@@ -64,7 +64,8 @@ token = 123456789:xxxxxxxxxxxxxxxxxxxx
 @ mkdir .cache && cd .cache
 # 创建一个空的数据库，然后保存
 @ sqlite3 tgficbot.db
-> .quit
+>.databases
+>.quit
 ```
 ### 4. 安装
 克隆/下载这个仓库，然后安装：
