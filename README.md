@@ -49,7 +49,6 @@ yum install git
 ```
 配置文件格式如下：
 ```
-ini
 [api]
 id = 123456
 hash = xxxxxxxxxxxxxxxxx
@@ -72,24 +71,24 @@ token = 123456789:xxxxxxxxxxxxxxxxxxxx
 这里将项目安装到 `/home`
 
 ```sh
-cd /home
-git clone https://github.com/jsmjsm/telegram-find-in-channel-bot.git
-cd telegram-find-in-channel-bot
-python3 setup.py install
+@ cd /home
+@ git clone https://github.com/jsmjsm/telegram-find-in-channel-bot.git
+@ cd telegram-find-in-channel-bot
+@ python3 setup.py install
 ```
 
 （可选）安装 `cryptg` 可提速：
 
 ```sh
-apt update
-apt install clang python3-dev
-pip3 install -U --user cryptg
+@ apt update
+@ apt install clang python3-dev
+@ pip3 install -U --user cryptg
 ```
 ### 5. 启动&后台持续运行：
 这里用了 `nohup` 和 `&` 使bot能在不关机的前提下持续运转
 ```sh
-cd /home/telegram-find-in-channel-bot
-nohup python3 -m tgficbot.main > find_bot.log3 2>&1 &
+@ cd /home/telegram-find-in-channel-bot
+@ nohup python3 -m tgficbot.main > find_bot.log3 2>&1 &
 ```
 通过 `ps -a `可以看到 python在后台运行， 可以用 `kill` 杀死 bot
 
