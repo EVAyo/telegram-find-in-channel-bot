@@ -6,18 +6,74 @@ The ‘Find in Conversations’ feature in Telegram does not support searching i
 
 ## Usage
 
-`/start` `/add` `/find`
+`/start` 启用
+`/add`  添加频道，建立信息库
+`/find` 搜索
+`/cancel` 取消会话
 
+## 依赖
+- python3
+- sqilte3
+- git
 ## 部署
+这里以 CentOS7 为例进行部署。其他系统暂未尝试，欢迎补充
 
+### 1. 安装依赖
+安装 python3
+```sh
+yum install Python3
+```
+安装 Sqlite3
+```sh
+yum install sqlite-devel
+```
+安装 git
+```sh
+yum install git
+```
+
+### 2. 获取Telegram api 和 Bot Taken
 这个机器人使用的并不是 HTTP bot API，而是 MTProto 客户端 API。请先获取这两样东西：
 
 * App `api_id` 和 `api_hash`，请在 https://my.telegram.org/apps 获取；
-* Bot token，请与 [@BotFather](https://t.me/BotFather) 聊天获取。
+* Bot `token`，请与 [@BotFather](https://t.me/BotFather) 聊天获取。
 
-克隆这个仓库，然后安装：  
+### 3. 创建配置文件和数据库
+#### 创建配置文件
+配置文件路径 `~/.config/tgficbot.cfg`
+创建
+```sh
+@ cd ~ && clear
+@ mkdir .config && cd .config
+@ vi tgficbot.cfg
+```
+配置文件格式如下：
+```
+ini
+[api]
+id = 123456
+hash = xxxxxxxxxxxxxxxxx
+
+[bot]
+token = 123456789:xxxxxxxxxxxxxxxxxxxx
+```
+
+#### 创建数据库
+运行时的数据库将被放在 `~/.cache/tgficbot.db`。
+```sh
+@ cd ~ && clear
+@ mkdir .cache && cd .cache
+# 创建一个空的数据库，然后保存
+@ sqlite3 tgficbot.db
+> .quit
+```
+### 4. 安装
+克隆/下载这个仓库，然后安装：
+这里将项目安装到 `/home`
 
 ```sh
+cd /home
+git clone https://github.com/jsmjsm/telegram-find-in-channel-bot.git
 cd telegram-find-in-channel-bot
 python3 setup.py install
 ```
@@ -29,25 +85,22 @@ apt update
 apt install clang python3-dev
 pip3 install -U --user cryptg
 ```
-
-配置文件位置在 `~/.config/tgficbot.cfg`，格式如下：
-
-```ini
-[api]
-id = 123456
-hash = xxxxxxxxxxxxxxxxx
-
-[bot]
-token = 123456789:xxxxxxxxxxxxxxxxxxxx
-```
-
-准备好配置文件后，就可以启动了：
-
+### 5. 启动&后台持续运行：
+这里用了 `nohup` 和 `&` 使bot能在不关机的前提下持续运转
 ```sh
-python3 -m tgficbot.main
+cd /home/telegram-find-in-channel-bot
+nohup python3 -m tgficbot.main > find_bot.log3 2>&1 &
 ```
+通过 `ps -a `可以看到 python在后台运行， 可以用 `kill` 杀死 bot
 
-运行时的数据库将被放在 `~/.cache/tgficbot.db`。
+## 使用
+需要先将Bot加入你想搜索的频道，并设置成频道管理员
+按照 Bot 的操作提示建立搜索库（内容多的频道需要耗费超长时间）
+/find 开始搜索会话
+
+----
+Here is the English RAW Deploy manual
+without any edition
 
 ## Deploy
 
